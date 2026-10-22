@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssetIQ | Intelligent Hospital Biomedical Asset Management</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              purple: '#7C3AED',
+              indigo: '#6366F1',
+              blue: '#2563EB',
+              cyan: '#0099FF',
+              light: '#EFF6FF',
+              dark: '#0A0F29',
+              slate: '#0F172A'
+            }
+          },
+          boxShadow: {
+            'glow-primary': '0 10px 30px -5px rgba(37, 99, 235, 0.35)',
+            'glow-purple': '0 10px 30px -5px rgba(124, 58, 237, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Brand Gradient Theme */
+    .bg-brand-gradient {
+      background: linear-gradient(135deg, #7C3AED 0%, #2563EB 52%, #0099FF 100%);
+    }
+    .text-brand-gradient {
+      background: linear-gradient(135deg, #7C3AED 0%, #2563EB 50%, #0099FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .border-brand-gradient {
+      border-image: linear-gradient(135deg, #7C3AED, #2563EB, #0099FF) 1;
+    }
+
+    /* Glow ring animation for live indicators */
+    .live-pulse {
+      box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+      animation: pulse-ring 2.2s infinite cubic-bezier(0.66, 0, 0, 1);
+    }
+    @keyframes pulse-ring {
+      to {
+        box-shadow: 0 0 0 12px rgba(37, 99, 235, 0);
+      }
+    }
+
+    /* Custom range slider styling */
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #2563EB;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(37, 99, 235, 0.6);
+      border: 3px solid #ffffff;
+      margin-top: -7px;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      cursor: pointer;
+      background: #E2E8F0;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-blue selection:text-white">
+
+  <!-- ================= TOP ANNOUNCEMENT BAR ================= -->
+  <div class="bg-brand-dark text-white text-xs sm:text-sm py-2.5 px-4 text-center font-medium border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex items-center justify-center space-x-2">
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-brand-purple/20 text-brand-purple border border-brand-purple/30">
+        <i class="fa-solid fa-sparkles mr-1 text-[10px]"></i> ZERO-RISK PILOT
+      </span>
+      <span class="text-slate-300">Run a <strong>30-day trial on your hospital's actual equipment</strong> alongside your existing spreadsheets.</span>
+      <button onclick="openLeadModal('Top Bar Pilot')" class="underline text-brand-cyan hover:text-white font-semibold ml-2 hidden sm:inline-flex items-center">
+        Claim Trial Slot <i class="fa-solid fa-arrow-right text-[10px] ml-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= STICKY HEADER NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo with Extracted Chevron Motif -->
+        <a href="#" class="flex items-center space-x-3 group">
+          <!-- Triple chevron gradient brand symbol -->
+          <div class="flex items-center -space-x-1.5 text-lg font-black transition-transform group-hover:scale-105">
+            <i class="fa-solid fa-angles-right text-brand-purple text-xl"></i>
+            <i class="fa-solid fa-angle-right text-brand-blue text-2xl font-black"></i>
+            <i class="fa-solid fa-angle-right text-brand-cyan text-2xl font-black"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-extrabold tracking-tight text-brand-dark leading-none">
+              Asset<span class="text-brand-gradient">IQ</span>
+            </span>
+            <span class="text-[9px] tracking-widest uppercase font-bold text-slate-500 mt-0.5">Biomedical Asset Intelligence</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold text-slate-700">
+          <a href="#modules" class="hover:text-brand-blue transition-colors">6 Modules</a>
+          <a href="#ask-assetiq" class="hover:text-brand-blue transition-colors flex items-center space-x-1.5">
+            <span>Ask AssetIQ</span>
+            <span class="text-[10px] px-1.5 py-0.2 rounded font-extrabold bg-gradient-to-r from-purple-500 to-blue-500 text-white">AI</span>
+          </a>
+          <a href="#solutions" class="hover:text-brand-blue transition-colors">By Department</a>
+          <a href="#comparison" class="hover:text-brand-blue transition-colors">24-Point Matrix</a>
+          <a href="#calculator" class="hover:text-brand-blue transition-colors">ROI Calculator</a>
+          <a href="#trial" class="hover:text-brand-blue transition-colors">30-Day Pilot</a>
+          <a href="#pricing" class="hover:text-brand-blue transition-colors">Pricing</a>
+        </nav>
+
+        <!-- Right Quick Actions -->
+        <div class="hidden sm:flex items-center space-x-4">
+          <a href="tel:+918867940555" class="text-xs font-bold text-slate-700 hover:text-brand-blue flex items-center py-2 px-3 rounded-lg hover:bg-slate-100 transition">
+            <i class="fa-solid fa-phone text-brand-blue mr-2"></i> +91 88679 40555
+          </a>
+          <button onclick="openLeadModal('Navbar CTA')" class="px-5 py-2.5 rounded-xl bg-brand-gradient text-white text-xs sm:text-sm font-bold shadow-glow-primary hover:opacity-95 transition transform hover:-translate-y-0.5">
+            Book Live Demo
+          </button>
+        </div>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobileMenuBtn" aria-label="Toggle Navigation" class="lg:hidden text-slate-700 p-2 text-xl focus:outline-none">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-slate-200 px-6 py-5 space-y-3 font-semibold text-sm">
+      <a href="#modules" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">6 Core Modules</a>
+      <a href="#ask-assetiq" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">Ask AssetIQ AI Engine</a>
+      <a href="#solutions" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">Department Solutions</a>
+      <a href="#comparison" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">Comparison Matrix</a>
+      <a href="#calculator" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">Downtime & Cost Calculator</a>
+      <a href="#trial" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">30-Day Parallel Trial</a>
+      <a href="#pricing" onclick="toggleMobileMenu()" class="block py-2 text-slate-800">Pricing & Packages</a>
+      <div class="pt-3 flex flex-col space-y-2">
+        <a href="tel:+918867940555" class="w-full text-center py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-700">
+          <i class="fa-solid fa-phone text-brand-blue mr-1.5"></i> Call +91 88679 40555
+        </a>
+        <button onclick="toggleMobileMenu(); openLeadModal('Mobile Drawer');" class="w-full py-3 rounded-xl bg-brand-gradient text-white text-xs font-bold shadow">
+          Book Live Demo
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO SECTION ================= -->
+    <section class="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden bg-gradient-to-b from-white via-brand-light/30 to-slate-100">
+      
+      <!-- Ambient background visual elements -->
+      <div class="absolute top-0 right-1/4 w-[600px] h-[400px] bg-gradient-to-tr from-brand-indigo/15 via-brand-blue/15 to-brand-cyan/20 rounded-full blur-3xl pointer-events-none -z-10"></div>
+      <div class="absolute bottom-10 left-10 w-96 h-96 bg-brand-purple/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-4xl mx-auto">
+          
+          <!-- Pill Badge -->
+          <div class="inline-flex items-center space-x-2.5 bg-white border border-slate-200/90 shadow-sm rounded-full px-4 py-1.5 mb-6">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 live-pulse"></span>
+            <span class="text-xs font-bold text-slate-700 uppercase tracking-wide">
+              NABH • JCI • AERB • DPDP Act Compliant
+            </span>
+          </div>
+
+          <!-- Main Hero Headline -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-dark tracking-tight leading-[1.12]">
+            Every hospital asset. <br class="hidden sm:inline">
+            <span class="text-brand-gradient">Right in your pocket.</span>
+          </h1>
+
+          <!-- Tagline & Value Description -->
+          <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+            One single asset register for maintenance, contracts, compliance and cost on Web and Android. Cut breakdown downtime, avoid paying twice for warranty repairs, and stay 100% audit-ready.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button onclick="openLeadModal('Hero CTA')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-gradient hover:opacity-95 text-white font-bold text-base shadow-glow-primary transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+              <span>Start 30-Day Free Pilot</span>
+              <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+            <button onclick="openVideoModal()" class="w-full sm:w-auto px-7 py-4 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-base shadow-sm transition flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-circle-play text-brand-blue text-lg"></i>
+              <span>Watch 60s Product Tour</span>
+            </button>
+          </div>
+
+          <!-- Quick Proof Bar -->
+          <div class="mt-12 pt-8 border-t border-slate-200/80 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div>
+              <p class="text-2xl sm:text-3xl font-extrabold text-brand-dark">23 of 24</p>
+              <p class="text-xs text-slate-500 font-semibold mt-1">Capabilities Ready</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-extrabold text-brand-blue">99.8%</p>
+              <p class="text-xs text-slate-500 font-semibold mt-1">Target Equipment Uptime</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-extrabold text-brand-purple">0.9 hrs</p>
+              <p class="text-xs text-slate-500 font-semibold mt-1">Average MTTR Resolution</p>
+            </div>
+            <div>
+              <p class="text-2xl sm:text-3xl font-extrabold text-emerald-600">30 Days</p>
+              <p class="text-xs text-slate-500 font-semibold mt-1">Parallel Live Pilot</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= INTERACTIVE DUAL CONSOLE PREVIEW (WEB & MOBILE) ================= -->
+        <div class="mt-14 max-w-5xl mx-auto bg-white rounded-3xl p-3 sm:p-5 shadow-2xl border border-slate-200/90 relative">
+          
+          <!-- View Switcher -->
+          <div class="flex flex-wrap items-center justify-between pb-4 mb-4 border-b border-slate-200 gap-3">
+            <div class="flex items-center space-x-2">
+              <button onclick="switchHeroView('web')" id="heroTabWeb" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark text-white transition flex items-center space-x-2">
+                <i class="fa-solid fa-desktop"></i>
+                <span>Web Command Console</span>
+              </button>
+              <button onclick="switchHeroView('mobile')" id="heroTabMobile" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2">
+                <i class="fa-solid fa-mobile-screen"></i>
+                <span>Android Ward Scanner (Offline-Ready)</span>
+              </button>
+            </div>
+            <div class="flex items-center text-xs font-medium text-slate-500 space-x-3">
+              <span class="inline-flex items-center text-emerald-600 font-semibold">
+                <i class="fa-solid fa-shield-halved mr-1.5"></i> VAPT Tested & Certified
+              </span>
+              <span class="hidden md:inline bg-slate-100 px-2 py-1 rounded text-[11px]">Sunrise Hospital Group</span>
+            </div>
+          </div>
+
+          <!-- Web Console View -->
+          <div id="heroViewWeb" class="rounded-2xl overflow-hidden border border-slate-800 bg-brand-slate text-white shadow-inner">
+            <!-- Simulated browser bar -->
+            <div class="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800 text-xs">
+              <div class="flex items-center space-x-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span class="text-slate-400 font-mono text-[11px] ml-3 hidden sm:inline">https://getassetiq.ai/app/biomed/sunrise-annexe</span>
+              </div>
+              <span class="text-[11px] text-slate-400 font-medium">Logged in: Akshay (BME Lead)</span>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="p-5 sm:p-7 space-y-6">
+              <!-- KPI Row -->
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700">
+                  <span class="text-slate-400 text-xs block">Asset Health Score</span>
+                  <div class="flex items-baseline space-x-2 mt-1">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-emerald-400">95%</span>
+                    <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950 px-1.5 py-0.5 rounded">Optimal</span>
+                  </div>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700">
+                  <span class="text-slate-400 text-xs block">Total Registered Fleet</span>
+                  <div class="flex items-baseline space-x-2 mt-1">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-white">1,236</span>
+                    <span class="text-[10px] text-slate-400">Assets</span>
+                  </div>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700">
+                  <span class="text-slate-400 text-xs block">Fleet Book Value</span>
+                  <div class="flex items-baseline space-x-2 mt-1">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-cyan-400">₹85.93 L</span>
+                  </div>
+                </div>
+                <div class="bg-slate-800/90 p-4 rounded-xl border border-slate-700">
+                  <span class="text-slate-400 text-xs block">PM Compliance</span>
+                  <div class="flex items-baseline space-x-2 mt-1">
+                    <span class="text-2xl sm:text-3xl font-extrabold text-purple-400">98.2%</span>
+                    <span class="text-[10px] text-purple-300">Audited</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live Asset Spec Card -->
+              <div class="bg-slate-800/60 p-5 rounded-2xl border border-slate-700">
+                <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-3">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-indigo to-brand-blue flex items-center justify-center text-white">
+                      <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-sm sm:text-base font-bold text-white">Biphasic Defibrillator — OT-4 Annexe</h3>
+                      <p class="text-xs text-slate-400">Tag: <code class="text-brand-cyan">SUN/SAN/ACU0013</code> • Model: Ackermann MDL-146</p>
+                    </div>
+                  </div>
+                  <span class="text-xs px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full font-bold">
+                    Coverage: Active AMC (Acme Biomed)
+                  </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4 text-xs">
+                  <div>
+                    <span class="text-slate-400 block">Next Preventive Maintenance</span>
+                    <span class="text-white font-semibold">08 Dec 2026 (Due in 14 days)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block">Calibration Certificate</span>
+                    <span class="text-emerald-400 font-semibold flex items-center">
+                      <i class="fa-solid fa-circle-check mr-1.5"></i> Valid till 20 Apr 2027
+                    </span>
+                  </div>
+                  <div>
+                    <span class="text-slate-400 block">Double-Payment Guard</span>
+                    <span class="text-brand-cyan font-semibold flex items-center">
+                      <i class="fa-solid fa-shield-check mr-1.5"></i> Quote Lock Enabled
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Mobile App Scanner View (Hidden by default) -->
+          <div id="heroViewMobile" class="hidden rounded-2xl overflow-hidden bg-slate-100 p-6 flex flex-col items-center">
+            <div class="w-full max-w-sm bg-white rounded-3xl shadow-xl border-4 border-slate-900 overflow-hidden text-slate-800">
+              <div class="bg-brand-dark text-white p-4 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <i class="fa-solid fa-qrcode text-brand-cyan"></i>
+                  <span class="text-xs font-bold uppercase tracking-wider">AssetIQ Android</span>
+                </div>
+                <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold border border-emerald-500/40">
+                  Offline Sync Ready
+                </span>
+              </div>
+              <div class="p-5 space-y-4">
+                <div class="border-2 border-dashed border-brand-blue/50 rounded-2xl p-6 text-center bg-blue-50/50">
+                  <i class="fa-solid fa-qrcode text-4xl text-brand-blue mb-2"></i>
+                  <p class="text-xs font-bold text-brand-dark">Ward Quick QR Scanner</p>
+                  <p class="text-[11px] text-slate-500">Scan any equipment tag in &lt;1 second to log breakdowns or view history</p>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+                  <div class="flex justify-between font-bold">
+                    <span>Recent: Ventilator VNT-09</span>
+                    <span class="text-brand-blue">Ward 3B</span>
+                  </div>
+                  <p class="text-[11px] text-slate-500">PM check completed by Nurse In-charge • Digital sign-off verified</p>
+                </div>
+                <button class="w-full py-2.5 rounded-xl bg-brand-gradient text-white text-xs font-bold shadow">
+                  Report Breakdown Instantly
+                </button>
+              </div>
+            </div>
+            <p class="text-xs text-slate-500 mt-4 text-center">
+              Works seamlessly without internet inside basements, radiation rooms, and ICUs. Syncs automatically.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 3 CRITICAL PILLARS (WITHOUT IT VS WITH IT) ================= -->
+    <section class="py-20 bg-white border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-purple bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
+            Why Hospitals Switch to AssetIQ
+          </span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            Stop running multi-crore medical equipment on spreadsheets
+          </h2>
+          <p class="mt-3 text-slate-600">
+            A single missing calibration or unverified vendor quote can cost a hospital lakhs. AssetIQ solves the root operational leaks.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Pillar 1 -->
+          <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:border-brand-blue/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-indigo-500/20">
+                <i class="fa-solid fa-bolt-lightning"></i>
+              </div>
+              <h3 class="text-xl font-bold text-brand-dark mb-2">Cut Critical Downtime</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                When an OT lamp or ICU ventilator halts, ward staff report the fault via mobile QR scan. The breakdown ticket reaches the right biomedical engineer in seconds with zero telephone tag.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200/80 text-xs font-bold text-rose-600 flex items-center">
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i> Without: 4-6 hours wasted logging faults manually
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:border-brand-blue/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-blue to-cyan-500 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-blue-500/20">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <h3 class="text-xl font-bold text-brand-dark mb-2">Avoid Paying Twice on AMCs</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                Hospitals leak massive budgets approving vendor repair quotes for equipment already covered under active warranty, CMC, or AMC. AssetIQ cross-checks contracts before purchase sign-off.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200/80 text-xs font-bold text-amber-600 flex items-center">
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i> Without: ₹8L–₹15L lost yearly in double payments
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:border-brand-blue/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white flex items-center justify-center text-xl mb-6 shadow-md shadow-teal-500/20">
+                <i class="fa-solid fa-file-circle-check"></i>
+              </div>
+              <h3 class="text-xl font-bold text-brand-dark mb-2">Stay 100% Audit Ready</h3>
+              <p class="text-sm text-slate-600 leading-relaxed">
+                One-click exports for NABH, JCI, and AERB radiation inspections. Calibration certificates, lead-apron registries, and append-only tamper-proof logs are ready whenever inspectors arrive.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200/80 text-xs font-bold text-emerald-600 flex items-center">
+              <i class="fa-solid fa-check mr-2"></i> With AssetIQ: Zero frantic pre-audit weekend prep
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= LIVE "ASK ASSETIQ" AI ENGINE SANDBOX ================= -->
+    <section id="ask-assetiq" class="py-24 bg-brand-dark text-white relative overflow-hidden">
+      
+      <!-- Subtle background gradient rings -->
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-brand-purple/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-brand-blue/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-brand-indigo/30 rounded-full px-4 py-1.5 mb-4">
+            <i class="fa-solid fa-wand-magic-sparkles text-brand-cyan text-xs"></i>
+            <span class="text-xs font-bold text-brand-cyan uppercase tracking-wider">Generative AI for Hospital BioMed</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            Talk to your hospital data in plain language.
+          </h2>
+          <p class="mt-4 text-slate-300 text-base">
+            No rigid database queries. Simply type or ask <strong>Ask AssetIQ</strong>. Answers return instantly with clickable links to verified records and immutable logs.
+          </p>
+        </div>
+
+        <!-- Simulator Interface Box -->
+        <div class="max-w-4xl mx-auto bg-slate-900/90 rounded-3xl border border-slate-700/80 shadow-2xl p-6 sm:p-8">
+          
+          <div class="text-xs text-slate-400 font-bold mb-3 uppercase tracking-wider">
+            Click any prompt to test live natural language reasoning:
+          </div>
+
+          <!-- Prompt Chips -->
+          <div class="flex flex-wrap gap-2.5 mb-6">
+            <button onclick="triggerAiSim(1)" class="ai-chip bg-slate-800 hover:bg-brand-blue text-slate-200 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center">
+              <i class="fa-solid fa-circle-question mr-2 text-brand-cyan"></i>
+              "ICU assets out of service right now?"
+            </button>
+            <button onclick="triggerAiSim(2)" class="ai-chip bg-slate-800 hover:bg-brand-blue text-slate-200 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center">
+              <i class="fa-solid fa-calendar-check mr-2 text-purple-400"></i>
+              "Ventilators due for calibration this month"
+            </button>
+            <button onclick="triggerAiSim(3)" class="ai-chip bg-slate-800 hover:bg-brand-blue text-slate-200 hover:text-white px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-700 transition flex items-center">
+              <i class="fa-solid fa-chart-line-down mr-2 text-amber-400"></i>
+              "Which vendor had the most SLA breaches last quarter?"
+            </button>
+          </div>
+
+          <!-- Input Bar Mockup -->
+          <div class="relative mb-6">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-cyan">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <input type="text" id="aiInputDisplay" readonly
+              value="ICU assets out of service right now?" 
+              class="w-full bg-slate-950 border border-slate-700 rounded-2xl pl-11 pr-24 py-4 text-sm text-white font-medium focus:outline-none">
+            <div class="absolute inset-y-0 right-3 flex items-center">
+              <span class="text-[11px] bg-slate-800 text-slate-300 font-mono px-2 py-1 rounded">Interactive</span>
+            </div>
+          </div>
+
+          <!-- Response Area -->
+          <div class="bg-slate-950/80 rounded-2xl p-6 border border-brand-blue/30 transition-all duration-300">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+              <div class="flex items-center space-x-2">
+                <div class="w-7 h-7 rounded-lg bg-brand-gradient flex items-center justify-center text-white text-xs">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <span class="text-xs font-bold text-brand-cyan uppercase tracking-wide">Ask AssetIQ Intelligence Engine</span>
+              </div>
+              <span class="text-[11px] text-slate-400">Live query resolution • 0.08s</span>
+            </div>
+
+            <!-- Dynamic Body -->
+            <div id="aiResponseContainer">
+              <p class="text-sm text-slate-200 mb-3">
+                Found <strong class="text-amber-400">2 equipment units</strong> currently flagged as <em>Out of Service</em> in <strong>Sunrise ICU (1st Floor)</strong>:
+              </p>
+
+              <div class="space-y-2.5">
+                <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+                  <div>
+                    <span class="font-bold text-white flex items-center">
+                      <span class="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
+                      Defibrillator (Ackermann MDL-146) — #SUN/SAN/ACU0013
+                    </span>
+                    <p class="text-slate-400 mt-0.5">Battery backup degraded • Reported 28h ago • Assigned: Suresh Babu</p>
+                  </div>
+                  <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 rounded font-semibold text-[11px] self-start sm:self-auto">
+                    Waiting for Vendor
+                  </span>
+                </div>
+
+                <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+                  <div>
+                    <span class="font-bold text-white flex items-center">
+                      <span class="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
+                      Syringe Pump (Mindray SP-5) — #SUN/SAN/SP0042
+                    </span>
+                    <p class="text-slate-400 mt-0.5">Sensor occlusion error • In-house spare part replaced</p>
+                  </div>
+                  <span class="px-2.5 py-1 bg-teal-500/20 text-teal-300 rounded font-semibold text-[11px] self-start sm:self-auto">
+                    Spare Part Issued
+                  </span>
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span>Confidence: 100% matched against live asset register</span>
+                <button onclick="openLeadModal('Ask AssetIQ Demo Export')" class="text-brand-cyan hover:underline font-semibold">
+                  Export snapshot to PDF &rarr;
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 6 CORE HEALTHCARE MODULES (TABS) ================= -->
+    <section id="modules" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-blue bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            Comprehensive Biomedical Suite
+          </span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            Six purpose-built modules. Turn on what you need.
+          </h2>
+          <p class="mt-3 text-slate-600">
+            Engineered exclusively for Indian clinical workflows. Each hospital enables only the modules it requires.
+          </p>
+        </div>
+
+        <!-- Module Selector Buttons -->
+        <div class="flex flex-wrap justify-center gap-2 mb-10">
+          <button onclick="displayModule(1)" id="modTab1" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-dark text-white shadow-md transition">
+            1. Asset Register & QR
+          </button>
+          <button onclick="displayModule(2)" id="modTab2" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            2. PM & Calibrations
+          </button>
+          <button onclick="displayModule(3)" id="modTab3" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            3. Breakdowns & Downtime
+          </button>
+          <button onclick="displayModule(4)" id="modTab4" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            4. Contracts & Spares
+          </button>
+          <button onclick="displayModule(5)" id="modTab5" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            5. Compliance & NABH
+          </button>
+          <button onclick="displayModule(6)" id="modTab6" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+            6. Dashboards & Access
+          </button>
+        </div>
+
+        <!-- Module Content Box -->
+        <div id="moduleContentDisplay" class="bg-slate-50 border border-slate-200/90 rounded-3xl p-6 sm:p-10 transition-all duration-300">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= VALUE BY DEPARTMENT ================= -->
+    <section id="solutions" class="py-20 bg-slate-100 border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-14">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-purple">Department Alignment</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            One shared system of truth for the entire hospital
+          </h2>
+          <p class="mt-3 text-slate-600">
+            From ward nurses to biomedical engineers to the CFO—AssetIQ eliminates information silos.
+          </p>
+        </div>
+
+        <!-- Department Tabs -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-4xl mx-auto mb-8">
+          <button onclick="selectDepartment('bme')" id="deptBtn-bme" class="py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-brand-dark text-white shadow">
+            Biomedical Engineering
+          </button>
+          <button onclick="selectDepartment('finance')" id="deptBtn-finance" class="py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200">
+            Purchase & Finance
+          </button>
+          <button onclick="selectDepartment('quality')" id="deptBtn-quality" class="py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200">
+            Quality & NABH
+          </button>
+          <button onclick="selectDepartment('it')" id="deptBtn-it" class="py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200">
+            IT & Hospital Admins
+          </button>
+        </div>
+
+        <!-- Department Detail Card -->
+        <div id="deptDetailBox" class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 24-POINT COMPARISON MATRIX ================= -->
+    <section id="comparison" class="py-24 bg-white border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-blue bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            Capability Benchmark
+          </span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            Why hospitals choose AssetIQ over legacy software
+          </h2>
+          <p class="mt-3 text-slate-600">
+            An independent 24-point audit of biomedical equipment features across Indian clinical deployments.
+          </p>
+        </div>
+
+        <!-- Capability Table -->
+        <div class="overflow-x-auto rounded-3xl border border-slate-200 shadow-sm bg-white">
+          <table class="w-full text-left border-collapse text-sm">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-600">
+                <th class="py-4 px-6 font-bold w-1/2">Capability</th>
+                <th class="py-4 px-6 font-bold text-center bg-blue-50/80 text-brand-blue border-x border-blue-100">
+                  <div class="flex items-center justify-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-brand-blue"></span>
+                    <span class="text-sm font-extrabold">AssetIQ</span>
+                  </div>
+                  <span class="text-[10px] text-brand-indigo font-bold lowercase">23/24 Available</span>
+                </th>
+                <th class="py-4 px-6 font-bold text-center text-slate-500">Generic CMMS (11/24)</th>
+                <th class="py-4 px-6 font-bold text-center text-slate-500">Legacy Med Software (12/24)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              
+              <!-- Section 1 -->
+              <tr class="bg-slate-100/70 font-bold text-xs uppercase tracking-wide text-slate-800">
+                <td colspan="4" class="py-2.5 px-6">1. Assets, QR Tagging & Field Mobility</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Asset register with QR tagging & mobile scanning</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-emerald-600"><i class="fa-solid fa-check"></i></td>
+                <td class="text-center text-slate-400"><i class="fa-solid fa-minus"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Parent/child equipment hierarchy & bulk import</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-emerald-600"><i class="fa-solid fa-check"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Inter-ward asset transfers and security gate pass</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Offline mobile viewing (works in basements/radiation rooms)</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+
+              <!-- Section 2 -->
+              <tr class="bg-slate-100/70 font-bold text-xs uppercase tracking-wide text-slate-800">
+                <td colspan="4" class="py-2.5 px-6">2. Maintenance, Spares & Differentiators</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">
+                  Repeat-failure detection with automatic alerts
+                  <span class="ml-2 inline-block text-[10px] bg-brand-purple/15 text-brand-purple font-extrabold px-2 py-0.5 rounded">AssetIQ Advantage</span>
+                </td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">
+                  Spare parts inventory with batch & FEFO stock ledger
+                  <span class="ml-2 inline-block text-[10px] bg-brand-purple/15 text-brand-purple font-extrabold px-2 py-0.5 rounded">AssetIQ Advantage</span>
+                </td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-amber-500 text-xs">Partial</td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Warranty & AMC check before repair quote approval</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+
+              <!-- Section 3 -->
+              <tr class="bg-slate-100/70 font-bold text-xs uppercase tracking-wide text-slate-800">
+                <td colspan="4" class="py-2.5 px-6">3. Compliance, AI & Assurance</td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">
+                  Radiation, AERB & lead-apron safety registers
+                  <span class="ml-2 inline-block text-[10px] bg-brand-purple/15 text-brand-purple font-extrabold px-2 py-0.5 rounded">AssetIQ Advantage</span>
+                </td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">Ask AssetIQ: plain-language AI query assistant</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">
+                  VAPT testing of each hospital's implementation
+                  <span class="ml-2 inline-block text-[10px] bg-brand-purple/15 text-brand-purple font-extrabold px-2 py-0.5 rounded">AssetIQ Advantage</span>
+                </td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+              <tr>
+                <td class="py-3.5 px-6 font-medium">30-day live trial on your own equipment</td>
+                <td class="text-center bg-blue-50/40 border-x border-blue-100 text-emerald-600 font-bold"><i class="fa-solid fa-circle-check text-base"></i></td>
+                <td class="text-center text-slate-400">Sandbox only</td>
+                <td class="text-center text-rose-500"><i class="fa-solid fa-xmark"></i></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center justify-between text-xs text-slate-500">
+          <span>* Benchmark as of Q4 2026. Based on standard capability matrix comparison.</span>
+          <button onclick="openLeadModal('Comparison Table PDF')" class="text-brand-blue font-bold hover:underline">
+            Request Full 24-Point PDF Matrix &rarr;
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= DYNAMIC HOSPITAL ROI CALCULATOR ================= -->
+    <section id="calculator" class="py-20 bg-slate-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-5 space-y-5">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-purple">Quantifiable ROI</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-dark leading-tight">
+              Calculate your hospital's operational & downtime savings.
+            </h2>
+            <p class="text-slate-600 text-sm leading-relaxed">
+              When life-saving machines sit idle, clinical revenue drops and patient care slows. See how much your facility saves by slashing MTTR, preventing duplicate AMC invoices, and automating NABH audit preparations.
+            </p>
+
+            <div class="space-y-3 pt-2 text-sm text-slate-700">
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-check text-brand-blue"></i>
+                <span>Zero phone-call friction during breakdown reporting</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-check text-brand-blue"></i>
+                <span>Prevent accidental out-of-warranty payouts</span>
+              </div>
+              <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-check text-brand-blue"></i>
+                <span>Eliminate expired spare part write-offs with FEFO</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slider Card -->
+          <div class="lg:col-span-7 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xl">
+            
+            <div class="space-y-6">
+              <!-- Bed Slider -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label class="text-sm font-bold text-brand-dark">Hospital Operational Beds</label>
+                  <span id="bedDisplay" class="text-sm font-extrabold text-brand-blue bg-blue-50 px-3 py-1 rounded-lg border border-blue-200">
+                    250 Beds
+                  </span>
+                </div>
+                <input type="range" id="bedSlider" min="50" max="1500" step="25" value="250" class="w-full" oninput="calculateSavings()">
+                <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                  <span>50 (Nursing Home)</span>
+                  <span>500 (Tertiary)</span>
+                  <span>1500+ (Multi-Campus)</span>
+                </div>
+              </div>
+
+              <!-- Device Count Slider -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label class="text-sm font-bold text-brand-dark">Total Biomedical Devices</label>
+                  <span id="deviceDisplay" class="text-sm font-extrabold text-brand-blue bg-blue-50 px-3 py-1 rounded-lg border border-blue-200">
+                    800 Devices
+                  </span>
+                </div>
+                <input type="range" id="deviceSlider" min="100" max="4000" step="50" value="800" class="w-full" oninput="calculateSavings()">
+              </div>
+
+              <!-- Computed Impact Card -->
+              <div class="mt-6 pt-6 border-t border-slate-100 bg-brand-dark p-6 rounded-2xl text-white">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <span class="text-xs text-slate-400 uppercase font-bold block">Annual Man-Hours Saved</span>
+                    <span id="hoursSavedVal" class="text-3xl font-extrabold text-cyan-400 mt-1 block">1,480 hrs</span>
+                    <span class="text-[11px] text-slate-400 mt-1 block">In nursing & biomedical logging</span>
+                  </div>
+                  <div>
+                    <span class="text-xs text-slate-400 uppercase font-bold block">Projected Net Cost Savings</span>
+                    <span id="costSavedVal" class="text-3xl font-extrabold text-emerald-400 mt-1 block">₹14.80 Lakhs</span>
+                    <span class="text-[11px] text-slate-400 mt-1 block">Via avoided AMC leakages & uptime</span>
+                  </div>
+                </div>
+
+                <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
+                  <span class="text-slate-300">Ready to verify these figures on your fleet?</span>
+                  <button onclick="openLeadModal('ROI Calculator')" class="text-brand-cyan hover:underline font-bold">
+                    Request Custom Audit &rarr;
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= 30-DAY TRIAL ROADMAP ================= -->
+    <section id="trial" class="py-24 bg-white border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-blue bg-blue-50 px-3 py-1 rounded-full border border-blue-200">
+            Zero Disruption Guarantee
+          </span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            Run a 30-day trial on your own equipment.
+          </h2>
+          <p class="mt-3 text-slate-600">
+            The trial runs alongside your current system: spreadsheets, a general CMMS, or paper logs. Your current hospital operations keep running with zero downtime during the pilot.
+          </p>
+        </div>
+
+        <!-- 4 Step Roadmap -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+          
+          <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-brand-purple bg-purple-100 px-3 py-1 rounded-full">DAYS 1–5</span>
+                <i class="fa-solid fa-qrcode text-slate-400"></i>
+              </div>
+              <h3 class="text-base font-bold text-brand-dark mb-2">Inventory & QR Tagging</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Import your spreadsheet in bulk, or our engineering specialists assist in tagging devices with weatherproof QR labels on-site.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-200 text-[11px] text-slate-500 font-medium">
+              <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Fast Excel onboarding
+            </div>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-brand-purple bg-purple-100 px-3 py-1 rounded-full">DAYS 6–7</span>
+                <i class="fa-solid fa-chalkboard-user text-slate-400"></i>
+              </div>
+              <h3 class="text-base font-bold text-brand-dark mb-2">Role-Based Training</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                We train biomedical engineers, ward nurses, department heads, and purchase managers only on the specific modules they use.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-200 text-[11px] text-slate-500 font-medium">
+              <i class="fa-solid fa-check text-emerald-600 mr-1"></i> &lt; 20 min nurse training
+            </div>
+          </div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6 flex flex-col justify-between hover:shadow-lg transition">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-brand-purple bg-purple-100 px-3 py-1 rounded-full">DAYS 8–29</span>
+                <i class="fa-solid fa-hospital-user text-slate-400"></i>
+              </div>
+              <h3 class="text-base font-bold text-brand-dark mb-2">Live Daily Operations</h3>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Log real PM, calibrations, breakdowns, and gate passes as they happen with continuous remote and on-site support.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-200 text-[11px] text-slate-500 font-medium">
+              <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Dedicated on-call manager
+            </div>
+          </div>
+
+          <div class="bg-brand-dark text-white rounded-3xl p-6 flex flex-col justify-between shadow-xl">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold text-brand-cyan bg-cyan-950 px-3 py-1 rounded-full border border-cyan-800">DAY 30</span>
+                <i class="fa-solid fa-award text-brand-cyan"></i>
+              </div>
+              <h3 class="text-base font-bold text-white mb-2">Audit Report & Review</h3>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Compare AssetIQ's automated uptime, MTTR, and compliance exports directly against your legacy registers and decide.
+              </p>
+            </div>
+            <div class="mt-6 pt-3 border-t border-slate-800 text-[11px] text-brand-cyan font-bold">
+              <i class="fa-solid fa-sparkles mr-1"></i> Zero obligation to buy
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= PRICING PACKAGES ================= -->
+    <section id="pricing" class="py-20 bg-slate-50 border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-wider text-brand-purple">Transparent Hospital Pricing</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-brand-dark">
+            Simple, predictable asset-based plans
+          </h2>
+          <p class="mt-3 text-slate-600">
+            No seat limits or ward licensing caps. Unlimited users for all doctors, nurses, and technicians included as standard.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          
+          <!-- Plan 1 -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-8 flex flex-col justify-between shadow-sm">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Software Core</span>
+              <h3 class="text-2xl font-bold text-brand-dark mt-1">Growth Hospital</h3>
+              <p class="text-xs text-slate-500 mt-2">Ideal for single hospital campuses with existing in-house biomedical staff.</p>
+              
+              <div class="mt-6 pb-6 border-b border-slate-100">
+                <span class="text-3xl font-extrabold text-brand-dark">Per Asset</span>
+                <span class="text-xs text-slate-500 block mt-1">Annual billing • Unlimited users</span>
+              </div>
+
+              <ul class="space-y-3 pt-6 text-xs text-slate-700">
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> QR Tagging & Register</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> PM & Calibration Schedules</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Ward Breakdown Reporting</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Android App with Offline Sync</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> NABH Audit Pack Exports</li>
+              </ul>
+            </div>
+
+            <button onclick="openLeadModal('Pricing: Growth Hospital')" class="mt-8 w-full py-3 rounded-xl border border-slate-300 hover:border-brand-blue text-xs font-bold text-slate-800 hover:text-brand-blue transition">
+              Start 30-Day Pilot
+            </button>
+          </div>
+
+          <!-- Plan 2 (Featured) -->
+          <div class="bg-white rounded-3xl border-2 border-brand-blue p-8 flex flex-col justify-between shadow-glow-primary relative">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-gradient text-white text-[10px] font-extrabold uppercase tracking-wider py-1 px-4 rounded-full shadow">
+              Most Popular
+            </div>
+
+            <div>
+              <span class="text-xs font-bold text-brand-blue uppercase tracking-wider">Complete Suite</span>
+              <h3 class="text-2xl font-bold text-brand-dark mt-1">Enterprise Hospital</h3>
+              <p class="text-xs text-slate-500 mt-2">Full biomedical intelligence, automated warranty protection, and Ask AssetIQ AI.</p>
+              
+              <div class="mt-6 pb-6 border-b border-slate-100">
+                <span class="text-3xl font-extrabold text-brand-gradient">Volume Tiered</span>
+                <span class="text-xs text-slate-500 block mt-1">Lower rate on multi-year contracts</span>
+              </div>
+
+              <ul class="space-y-3 pt-6 text-xs text-slate-700">
+                <li class="flex items-center font-semibold text-brand-dark"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Everything in Core Plan</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> <strong>Ask AssetIQ Natural Language AI</strong></li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Warranty & AMC Quote Lock</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Repeat-Failure Diagnostics</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> FEFO Spare Parts Stock Ledger</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> AERB & Radiation Registers</li>
+              </ul>
+            </div>
+
+            <button onclick="openLeadModal('Pricing: Enterprise Hospital')" class="mt-8 w-full py-3.5 rounded-xl bg-brand-gradient text-white text-xs font-bold shadow-glow-primary hover:opacity-95 transition">
+              Start 30-Day Free Pilot
+            </button>
+          </div>
+
+          <!-- Plan 3 -->
+          <div class="bg-white rounded-3xl border border-slate-200 p-8 flex flex-col justify-between shadow-sm">
+            <div>
+              <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Multi-Campus</span>
+              <h3 class="text-2xl font-bold text-brand-dark mt-1">Hospital Chains</h3>
+              <p class="text-xs text-slate-500 mt-2">Designed for multi-unit hospital networks with centralized inventory control.</p>
+              
+              <div class="mt-6 pb-6 border-b border-slate-100">
+                <span class="text-3xl font-extrabold text-brand-dark">Custom Group</span>
+                <span class="text-xs text-slate-500 block mt-1">Multi-branch licensing & API integration</span>
+              </div>
+
+              <ul class="space-y-3 pt-6 text-xs text-slate-700">
+                <li class="flex items-center font-semibold text-brand-dark"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Everything in Enterprise</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Multi-Hospital Consolidated Console</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Cross-Branch Gate Passes & Transfers</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Bi-directional HIS / SAP / ERP Webhooks</li>
+                <li class="flex items-center"><i class="fa-solid fa-check text-brand-blue mr-2.5"></i> Custom VAPT Penetration Testing</li>
+              </ul>
+            </div>
+
+            <button onclick="openLeadModal('Pricing: Hospital Chains')" class="mt-8 w-full py-3 rounded-xl border border-slate-300 hover:border-brand-blue text-xs font-bold text-slate-800 hover:text-brand-blue transition">
+              Speak with Solution Architect
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= FINAL HIGH-CONVERTING CTA ================= -->
+    <section class="py-20 bg-brand-gradient text-white relative overflow-hidden">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        
+        <div class="flex items-center justify-center -space-x-1 text-2xl mb-4">
+          <i class="fa-solid fa-angles-right text-brand-purple"></i>
+          <i class="fa-solid fa-angle-right text-white font-black text-3xl"></i>
+          <i class="fa-solid fa-angle-right text-brand-cyan font-black text-3xl"></i>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+          Ready to put every hospital asset in your pocket?
+        </h2>
+        <p class="mt-4 text-base sm:text-lg text-blue-100 max-w-2xl mx-auto">
+          Start your 30-day pilot on a sample of your devices this week. We train your biomedical team and ward staff on day-to-day use.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button onclick="openLeadModal('Bottom Banner CTA')" class="w-full sm:w-auto px-8 py-4 bg-white hover:bg-slate-100 text-brand-dark font-extrabold rounded-2xl shadow-xl transition transform hover:-translate-y-0.5">
+            Start 30-Day Free Pilot
+          </button>
+          <a href="tel:+918867940555" class="w-full sm:w-auto px-6 py-4 bg-black/25 hover:bg-black/35 text-white border border-white/30 font-bold rounded-2xl transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-phone"></i>
+            <span>Call Direct: +91 88679 40555</span>
+          </a>
+        </div>
+
+        <p class="text-xs text-blue-200 mt-6 font-medium">
+          No credit card or server purchase required • DPDP Act Compliant • Encrypted & Hosted in India
+        </p>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-brand-dark text-slate-400 text-xs py-14 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+        
+        <div class="space-y-4">
+          <div class="flex items-center space-x-2.5">
+            <div class="flex items-center -space-x-1 text-base font-black">
+              <i class="fa-solid fa-angles-right text-brand-purple"></i>
+              <i class="fa-solid fa-angle-right text-brand-blue font-black text-xl"></i>
+              <i class="fa-solid fa-angle-right text-brand-cyan font-black text-xl"></i>
+            </div>
+            <span class="text-xl font-extrabold text-white tracking-tight">AssetIQ</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed">
+            Intelligent biomedical asset management for hospitals. Know where it is. Service it on time. Stay audit-ready.
+          </p>
+          <div class="text-slate-400 space-y-1">
+            <p><i class="fa-solid fa-globe mr-1.5 text-brand-blue"></i> getassetiq.ai</p>
+            <p><i class="fa-solid fa-envelope mr-1.5 text-brand-blue"></i> admin@onecliq.ai</p>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold mb-3.5 uppercase tracking-wider text-[11px]">Platform Modules</h4>
+          <ul class="space-y-2">
+            <li><a href="#modules" class="hover:text-white transition">Asset Register & QR Tags</a></li>
+            <li><a href="#modules" class="hover:text-white transition">Preventive Maintenance Schedules</a></li>
+            <li><a href="#modules" class="hover:text-white transition">Breakdowns & Rapid SLAs</a></li>
+            <li><a href="#modules" class="hover:text-white transition">AMC/Warranty Quote Lock</a></li>
+            <li><a href="#modules" class="hover:text-white transition">FEFO Spare Parts Ledger</a></li>
+            <li><a href="#ask-assetiq" class="hover:text-white transition">Ask AssetIQ AI Engine</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold mb-3.5 uppercase tracking-wider text-[11px]">Compliance & Standards</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">NABH & JCI Audit Exports</a></li>
+            <li><a href="#" class="hover:text-white transition">AERB Radiation & Lead Apron Log</a></li>
+            <li><a href="#" class="hover:text-white transition">India DPDP Act Alignment</a></li>
+            <li><a href="#" class="hover:text-white transition">VAPT Security Testing</a></li>
+            <li><a href="#" class="hover:text-white transition">Append-Only Immutable Logs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold mb-3.5 uppercase tracking-wider text-[11px]">Direct Hospital Desk</h4>
+          <p class="text-slate-400 mb-2">Speak directly with our senior clinical implementation leads:</p>
+          <p class="text-white font-bold text-sm mb-1"><a href="tel:+918867940555" class="hover:text-brand-cyan">+91 88679 40555</a></p>
+          <p class="text-slate-400 mb-4"><a href="mailto:admin@onecliq.ai" class="hover:text-brand-cyan">admin@onecliq.ai</a></p>
+          <span class="inline-block bg-slate-900 border border-slate-800 text-[11px] px-3 py-1.5 rounded-xl text-emerald-400 font-semibold">
+            <i class="fa-solid fa-circle-check mr-1 text-[10px]"></i> Cloud-Hosted in India
+          </span>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
+        <p>© 2026 AssetIQ (Onecliq Technologies). All rights reserved.</p>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-slate-300">Privacy Policy</a>
+          <a href="#" class="hover:text-slate-300">Security Architecture</a>
+          <a href="#" class="hover:text-slate-300">Hospital Service SLA</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ================= LEAD CAPTURE & PILOT MODAL ================= -->
+  <div id="leadModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="bg-brand-dark text-white p-6 relative">
+        <button onclick="closeLeadModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <span class="text-[10px] font-extrabold uppercase tracking-wider text-brand-cyan bg-cyan-950 px-2.5 py-0.5 rounded border border-cyan-800">
+          Risk-Free 30-Day Pilot
+        </span>
+        <h3 class="text-xl font-bold mt-2">Book Your Hospital AssetIQ Walkthrough</h3>
+        <p class="text-xs text-slate-300 mt-1">See how AssetIQ tracks equipment and prevents duplicate AMC invoices.</p>
+      </div>
+
+      <!-- Form -->
+      <form id="pilotForm" onsubmit="handleFormSubmission(event)" class="p-6 space-y-4">
+        <input type="hidden" id="modalSource" value="General">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
+          <input type="text" required placeholder="e.g. Dr. Rajesh Sharma / Suresh Babu" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-blue">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Official Email *</label>
+            <input type="email" required placeholder="name@hospital.com" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-blue">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Mobile / WhatsApp *</label>
+            <input type="tel" required placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-blue">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Hospital / Group Name *</label>
+            <input type="text" required placeholder="e.g. Sunrise Multi-Speciality" class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-blue">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Approximate Bed Count</label>
+            <select class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-blue bg-white">
+              <option value="50-150">50 - 150 beds</option>
+              <option value="150-300" selected>150 - 300 beds</option>
+              <option value="300-600">300 - 600 beds</option>
+              <option value="600+">600+ beds (Hospital Chain)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Primary Role</label>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center p-2 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="userRole" value="Biomedical Lead" checked class="text-brand-blue mr-2"> Biomedical Head
+            </label>
+            <label class="flex items-center p-2 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="userRole" value="Medical Director" class="text-brand-blue mr-2"> Medical Director / COO
+            </label>
+            <label class="flex items-center p-2 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="userRole" value="Quality / NABH" class="text-brand-blue mr-2"> Quality & NABH Lead
+            </label>
+            <label class="flex items-center p-2 rounded-lg border border-slate-200 cursor-pointer hover:bg-slate-50">
+              <input type="radio" name="userRole" value="Purchase / Finance" class="text-brand-blue mr-2"> Purchase / CFO
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-brand-gradient text-white text-sm font-bold shadow-glow-primary hover:opacity-95 transition">
+          Schedule Demo & Setup 30-Day Pilot
+        </button>
+
+        <p class="text-[11px] text-center text-slate-500">
+          Zero commitment. We will arrange a 15-minute demonstration with our senior biomedical specialist.
+        </p>
+      </form>
+
+      <!-- Confirmation Screen -->
+      <div id="modalConfirmation" class="hidden p-8 text-center space-y-4">
+        <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h4 class="text-xl font-bold text-brand-dark">Demo & Pilot Request Received</h4>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Thank you! Our technical specialist will connect with you within 4 business hours to set up your 30-day equipment pilot.
+        </p>
+        <button onclick="closeLeadModal()" class="px-6 py-2.5 bg-brand-dark text-white rounded-xl text-xs font-bold">
+          Close Window
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= VIDEO MODAL POPUP ================= -->
+  <div id="videoModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative w-full max-w-3xl bg-black rounded-3xl overflow-hidden shadow-2xl border border-slate-800">
+      <div class="p-4 bg-slate-900 flex items-center justify-between text-white border-b border-slate-800">
+        <span class="text-xs font-bold flex items-center">
+          <i class="fa-solid fa-circle-play text-brand-blue mr-2"></i> AssetIQ: 60-Second Product Walkthrough
+        </span>
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="aspect-video bg-slate-950 flex flex-col items-center justify-center p-6 text-center text-white">
+        <div class="w-16 h-16 rounded-full bg-brand-blue/20 text-brand-blue flex items-center justify-center text-2xl mb-4 border border-brand-blue/40">
+          <i class="fa-solid fa-film"></i>
+        </div>
+        <h4 class="text-lg font-bold">Watch AssetIQ in Daily Hospital Action</h4>
+        <p class="text-xs text-slate-400 max-w-md mt-1 mb-5">
+          See how ward staff scan QR tags, trigger duty engineer assignments, track PM checklists, and export NABH binders.
+        </p>
+        <button onclick="closeVideoModal(); openLeadModal('Video Modal Pilot');" class="px-6 py-3 rounded-xl bg-brand-gradient text-white text-xs font-bold shadow">
+          Book Private 1-on-1 Walkthrough
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // 1. Mobile Menu Toggle
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+    document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+
+    // 2. Modals Control
+    function openLeadModal(source = 'General') {
+      document.getElementById('modalSource').value = source;
+      document.getElementById('pilotForm').classList.remove('hidden');
+      document.getElementById('modalConfirmation').classList.add('hidden');
+      document.getElementById('leadModal').classList.remove('hidden');
+    }
+    function closeLeadModal() {
+      document.getElementById('leadModal').classList.add('hidden');
+    }
+    document.getElementById('leadModal').addEventListener('click', function(e) {
+      if (e.target === this) closeLeadModal();
+    });
+
+    function openVideoModal() {
+      document.getElementById('videoModal').classList.remove('hidden');
+    }
+    function closeVideoModal() {
+      document.getElementById('videoModal').classList.add('hidden');
+    }
+    document.getElementById('videoModal').addEventListener('click', function(e) {
+      if (e.target === this) closeVideoModal();
+    });
+
+    function handleFormSubmission(e) {
+      e.preventDefault();
+      document.getElementById('pilotForm').classList.add('hidden');
+      document.getElementById('modalConfirmation').classList.remove('hidden');
+    }
+
+    // 3. Hero View Switcher (Web Console vs Mobile Scanner)
+    function switchHeroView(type) {
+      const webBtn = document.getElementById('heroTabWeb');
+      const mobileBtn = document.getElementById('heroTabMobile');
+      const webView = document.getElementById('heroViewWeb');
+      const mobileView = document.getElementById('heroViewMobile');
+
+      if (type === 'web') {
+        webBtn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark text-white transition flex items-center space-x-2";
+        mobileBtn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2";
+        webView.classList.remove('hidden');
+        mobileView.classList.add('hidden');
+      } else {
+        mobileBtn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-dark text-white transition flex items-center space-x-2";
+        webBtn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition flex items-center space-x-2";
+        mobileView.classList.remove('hidden');
+        webView.classList.add('hidden');
+      }
+    }
+
+    // 4. "Ask AssetIQ" AI Sandbox Simulation
+    const aiQueries = {
+      1: {
+        text: "ICU assets out of service right now?",
+        html: `
+          <p class="text-sm text-slate-200 mb-3">
+            Found <strong class="text-amber-400">2 equipment units</strong> currently flagged as <em>Out of Service</em> in <strong>Sunrise ICU (1st Floor)</strong>:
+          </p>
+          <div class="space-y-2.5">
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+              <div>
+                <span class="font-bold text-white flex items-center">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
+                  Defibrillator (Ackermann MDL-146) — #SUN/SAN/ACU0013
+                </span>
+                <p class="text-slate-400 mt-0.5">Battery backup degraded • Reported 28h ago • Assigned: Suresh Babu</p>
+              </div>
+              <span class="px-2.5 py-1 bg-amber-500/20 text-amber-300 rounded font-semibold text-[11px] self-start sm:self-auto">
+                Waiting for Vendor
+              </span>
+            </div>
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+              <div>
+                <span class="font-bold text-white flex items-center">
+                  <span class="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
+                  Syringe Pump (Mindray SP-5) — #SUN/SAN/SP0042
+                </span>
+                <p class="text-slate-400 mt-0.5">Sensor occlusion error • In-house spare part replaced</p>
+              </div>
+              <span class="px-2.5 py-1 bg-teal-500/20 text-teal-300 rounded font-semibold text-[11px] self-start sm:self-auto">
+                Spare Part Issued
+              </span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <span>Confidence: 100% matched against live asset register</span>
+            <button onclick="openLeadModal('Ask AssetIQ Demo Export')" class="text-brand-cyan hover:underline font-semibold">
+              Export snapshot to PDF &rarr;
+            </button>
+          </div>
+        `
+      },
+      2: {
+        text: "Ventilators due for calibration this month",
+        html: `
+          <p class="text-sm text-slate-200 mb-3">
+            Identified <strong class="text-brand-cyan">3 critical ventilators</strong> with calibration deadlines before month-end:
+          </p>
+          <div class="space-y-2.5">
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+              <div>
+                <span class="font-bold text-white">Hamilton-C3 (#VNT-HAM-009) — OT-3</span>
+                <p class="text-slate-400 mt-0.5">Deadline: 28 Oct • Certified Vendor: GK Healthcare Labs</p>
+              </div>
+              <span class="text-amber-400 font-bold bg-amber-950 px-2 py-0.5 rounded border border-amber-800">Due in 6 Days</span>
+            </div>
+            <div class="p-3.5 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+              <div>
+                <span class="font-bold text-white">Maquet Servo-i (#VNT-MAQ-012) — CCU</span>
+                <p class="text-slate-400 mt-0.5">Deadline: 31 Oct • Checklist: Flow Sensor & Pressure Cal</p>
+              </div>
+              <span class="text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800">Vendor Confirmed</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <span>Standard: 100% aligned with NABH Statutory Calibration Norms</span>
+            <button onclick="openLeadModal('Ask AssetIQ Demo Export')" class="text-brand-cyan hover:underline font-semibold">
+              Add to Calibration Calendar &rarr;
+            </button>
+          </div>
+        `
+      },
+      3: {
+        text: "Which vendor had the most SLA breaches last quarter?",
+        html: `
+          <p class="text-sm text-slate-200 mb-3">
+            SLA breach audit result for <strong class="text-white">Q3 (July – September)</strong>:
+          </p>
+          <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 text-xs space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="font-bold text-white text-sm">Apex Imaging Systems (CT & Ultrasound CMC)</span>
+              <span class="text-rose-400 font-bold bg-rose-950 px-2.5 py-0.5 rounded border border-rose-800">4 Breaches</span>
+            </div>
+            <p class="text-slate-300">Mean vendor response time was <strong>28.4 hours</strong> (Contracted threshold: &lt; 6.0 hours).</p>
+            <p class="text-emerald-400 font-medium">Automatic contract penalty suggested: ₹42,500 deduction on pending invoice #INV-7719.</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+            <span>Clause reference: Master Service Agreement 2025-26, Sec 8.4</span>
+            <button onclick="openLeadModal('Ask AssetIQ Demo Export')" class="text-brand-cyan hover:underline font-semibold">
+              Generate Penalty Debit Note &rarr;
+            </button>
+          </div>
+        `
+      }
+    };
+
+    function triggerAiSim(id) {
+      const q = aiQueries[id];
+      document.getElementById('aiInputDisplay').value = q.text;
+      const container = document.getElementById('aiResponseContainer');
+      container.style.opacity = '0';
+      setTimeout(() => {
+        container.innerHTML = q.html;
+        container.style.opacity = '1';
+      }, 150);
+    }
+
+    // 5. Six Core Modules Details
+    const moduleCatalog = {
+      1: {
+        tag: "Module 1",
+        title: "Asset Register & QR Mobile Tagging",
+        desc: "A centralized, searchable master ledger for every biomedical asset. Tag machines with weather-resistant QR codes and manage asset parent-child hierarchies seamlessly.",
+        points: [
+          "Instant QR label generation and smartphone camera scanning",
+          "Parent-to-child tagging (e.g., Anesthesia workstation with vaporizers & ventilator)",
+          "Rapid bulk Excel onboarding with automatic duplicate sanitation",
+          "Automated depreciation computation and real-time fleet book value",
+          "Inter-ward transfers, temporary loan tracking, and security gate passes"
+        ],
+        icon: "fa-qrcode"
+      },
+      2: {
+        tag: "Module 2",
+        title: "Preventive Maintenance & Calibrations",
+        desc: "Move from reactive firefighting into predictable, on-time servicing with automated reminder calendars and measured digital test checklists.",
+        points: [
+          "Automated PM schedules with visual calendar views and mobile alerts",
+          "NABH-compliant preventive maintenance checklists with recorded test values",
+          "Calibration certificate repository with expiry warnings",
+          "Daily biomedical ward rounds logging right on your Android phone",
+          "Offline mode: perform checks in radiation bunkers or basements with zero dropouts"
+        ],
+        icon: "fa-wrench"
+      },
+      3: {
+        tag: "Module 3",
+        title: "Breakdowns & Rapid SLAs",
+        desc: "Empower ward nurses and doctors to report breakdowns in seconds. Ensure every fix is digitally signed off before closing the ticket.",
+        points: [
+          "Report breakdown by simply scanning the equipment QR tag",
+          "Untagged asset reporting for quick onboarding of missing inventory",
+          "Escalation matrices by equipment criticality via Push, WhatsApp, and Email",
+          "Mandatory ward nurse/reporter physical sign-off with signature capture",
+          "Repeat-failure detection: flags chronic equipment defects automatically"
+        ],
+        icon: "fa-triangle-exclamation"
+      },
+      4: {
+        tag: "Module 4",
+        title: "Contracts, Spares & Purchase Controls",
+        desc: "Stop overpaying vendors. Enforce active AMC/CMC verification and control internal spare parts consumption.",
+        points: [
+          "Warranty, AMC, and CMC contract tracking with 90-day renewal warnings",
+          "Quote protection: prevents paying ad-hoc repair bills for equipment under warranty",
+          "Vendor SLA breach tracking with automatic penalty computations",
+          "Spare parts ledger with batch numbers, expiry dates, and FEFO allocation",
+          "Integrated Purchase Indents, PO generation, and goods receipt to stores"
+        ],
+        icon: "fa-file-contract"
+      },
+      5: {
+        tag: "Module 5",
+        title: "Compliance, NABH & AERB Registers",
+        desc: "Built ground-up for Indian healthcare accreditations. Never assemble paperwork manually during an audit again.",
+        points: [
+          "One-click audit export packages ready for NABH and JCI inspections",
+          "Dedicated Radiation & AERB safety register with lead-apron thickness tests",
+          "Physical asset verification campaigns with barcode match-and-verify",
+          "Staff training log on critical life-saving equipment operation",
+          "Condemnation and disposal approval workflow with asset write-off"
+        ],
+        icon: "fa-shield-halved"
+      },
+      6: {
+        tag: "Module 6",
+        title: "Real-Time KPI Dashboards & Access",
+        desc: "Give hospital management immediate clarity into operational uptime, equipment availability, and repair speeds.",
+        points: [
+          "Real-time uptime scores across departments, criticalities, and branches",
+          "Automated MTTR (Mean Time to Repair) and MTBF (Mean Time Between Failures)",
+          "Ask AssetIQ: Plain-language natural language query interface",
+          "Role-based multi-tier permissions for technicians, nurses, and directors",
+          "Append-only, tamper-proof audit trails for every modification"
+        ],
+        icon: "fa-chart-pie"
+      }
+    };
+
+    function displayModule(id) {
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.getElementById(`modTab${i}`);
+        if (i === id) {
+          btn.className = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-dark text-white shadow-md transition";
+        } else {
+          btn.className = "px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-slate-100 text-slate-700 hover:bg-slate-200 transition";
+        }
+      }
+
+      const mod = moduleCatalog[id];
+      const html = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <span class="inline-block text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100 text-brand-blue">
+              ${mod.tag}
+            </span>
+            <h3 class="text-2xl sm:text-3xl font-extrabold text-brand-dark">${mod.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">${mod.desc}</p>
+            
+            <ul class="space-y-2.5 pt-2">
+              ${mod.points.map(pt => `
+                <li class="flex items-start space-x-3 text-xs sm:text-sm text-slate-700">
+                  <i class="fa-solid fa-circle-check text-brand-blue mt-1"></i>
+                  <span>${pt}</span>
+                </li>
+              `).join('')}
+            </ul>
+
+            <div class="pt-4 flex items-center space-x-4">
+              <button onclick="openLeadModal('${mod.title}')" class="px-5 py-2.5 bg-brand-gradient text-white text-xs font-bold rounded-xl shadow-glow-primary transition">
+                See Live Walkthrough
+              </button>
+              <span class="text-xs text-slate-500 font-medium">Available on Android & Web</span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 bg-white p-7 rounded-3xl border border-slate-200/90 shadow-sm space-y-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-indigo to-brand-blue text-white flex items-center justify-center text-2xl shadow-md">
+              <i class="fa-solid ${mod.icon}"></i>
+            </div>
+            <h4 class="font-bold text-brand-dark text-base">Key Operational Advantage</h4>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              Unlike generic ticketing CMMS systems, this module was tailored specifically for biomedical compliance, ensuring zero unrecorded equipment touches.
+            </p>
+            <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700">
+              <strong class="text-brand-dark">Clinical Outcome:</strong> Standardized logging eliminates audit findings and extends equipment operating life by up to 25%.
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('moduleContentDisplay').innerHTML = html;
+    }
+
+    // 6. Department Alignment Tabs
+    const departmentData = {
+      bme: {
+        title: "Biomedical Engineering (BME)",
+        sub: "Run maintenance on schedule with zero guesswork.",
+        items: [
+          "Complete equipment history on your Android phone, even offline in basement zones.",
+          "Preventive maintenance, calibration, and safety tests with automatic alerts.",
+          "Spare parts issued directly against job orders with batch & FEFO stock tracking.",
+          "Reporter sign-off: verify repairs with ward nurse signatures directly on glass."
+        ],
+        icon: "fa-wrench"
+      },
+      finance: {
+        title: "Purchase & Finance",
+        sub: "Control capital spend and eliminate duplicate contract costs.",
+        items: [
+          "Never pay twice: Automatic warranty and AMC coverage check before approving any vendor quote.",
+          "Complete depreciation and book-value tracking per device for finance asset ledgers.",
+          "Contract expiry alerts 90, 60, and 30 days prior to renewal dates.",
+          "Integrated Purchase Indents, PO issuance, and stores goods receipt."
+        ],
+        icon: "fa-coins"
+      },
+      quality: {
+        title: "Quality & NABH Accreditation",
+        sub: "Show compliance on demand with continuous audit readiness.",
+        items: [
+          "One-click NABH, JCI, and ISO compliance export packages ready for inspectors.",
+          "Radiation & AERB lead-apron inspection registers with digital test certificates.",
+          "Append-only, immutable audit trail of every change, with exact user timestamp.",
+          "Equipment training log to verify nursing competence before clinical operation."
+        ],
+        icon: "fa-certificate"
+      },
+      it: {
+        title: "IT & Hospital Leadership",
+        sub: "Zero on-premise infrastructure with enterprise data assurance.",
+        items: [
+          "100% Cloud-hosted with zero local servers to maintain, backup, or patch.",
+          "Encrypted data stored in India, fully aligned with the DPDP Act.",
+          "VAPT tested implementation for each hospital to guarantee clinical data isolation.",
+          "Modern REST APIs and webhooks for bi-directional integration with HIS and ERPs."
+        ],
+        icon: "fa-server"
+      }
+    };
+
+    function selectDepartment(dept) {
+      ['bme', 'finance', 'quality', 'it'].forEach(k => {
+        const btn = document.getElementById(`deptBtn-${k}`);
+        if (k === dept) {
+          btn.className = "py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-brand-dark text-white shadow";
+        } else {
+          btn.className = "py-3 px-4 rounded-xl text-center font-bold text-xs sm:text-sm bg-white text-slate-700 hover:bg-slate-50 border border-slate-200";
+        }
+      });
+
+      const d = departmentData[dept];
+      const html = `
+        <div class="flex items-start space-x-4 mb-4">
+          <div class="w-12 h-12 rounded-2xl bg-brand-light text-brand-blue flex items-center justify-center text-xl shrink-0">
+            <i class="fa-solid ${d.icon}"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold text-brand-dark">${d.title}</h3>
+            <p class="text-xs text-brand-blue font-bold mt-0.5">${d.sub}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+          ${d.items.map(item => `
+            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-start space-x-3">
+              <i class="fa-solid fa-circle-check text-emerald-600 shrink-0 mt-0.5"></i>
+              <span class="text-xs text-slate-700 leading-relaxed font-medium">${item}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <span class="text-xs text-slate-500">Supports unlimited users across all hospital branches</span>
+          <button onclick="openLeadModal('Dept: ${d.title}')" class="text-xs font-bold text-brand-blue hover:underline flex items-center">
+            Schedule Role Walkthrough <i class="fa-solid fa-arrow-right text-[10px] ml-1.5"></i>
+          </button>
+        </div>
+      `;
+      document.getElementById('deptDetailBox').innerHTML = html;
+    }
+
+    // 7. Dynamic ROI Calculator
+    function calculateSavings() {
+      const beds = parseInt(document.getElementById('bedSlider').value);
+      const devices = parseInt(document.getElementById('deviceSlider').value);
+
+      document.getElementById('bedDisplay').innerText = `${beds} Beds`;
+      document.getElementById('deviceDisplay').innerText = `${devices} Devices`;
+
+      // ~1.85 man hours saved per device/year in manual logs, audit prep, and fault calls
+      const hoursSaved = Math.round(devices * 1.85);
+      // Average financial savings based on reduced downtime & avoided AMC dual payments (~₹1,850 per machine/year)
+      const costSavedLakhs = ((devices * 1850) / 100000).toFixed(2);
+
+      document.getElementById('hoursSavedVal').innerText = `${hoursSaved.toLocaleString()} hrs`;
+      document.getElementById('costSavedVal').innerText = `₹${costSavedLakhs} Lakhs`;
+    }
+
+    // Initialize Default States
+    document.addEventListener("DOMContentLoaded", function() {
+      displayModule(1);
+      selectDepartment('bme');
+      calculateSavings();
+    });
+  </script>
+</body>
+</html>
