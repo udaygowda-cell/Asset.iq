@@ -1207,53 +1207,6 @@ footer::before { content: ""; position: absolute; top: -1px; left: 0; width: 100
         </div>
       </div>
 
-      <!-- Live Console Interactive Preview -->
-      <div class="console-wrapper">
-        <div class="con" aria-label="AssetIQ console preview">
-          <div class="ch">
-            <div style="display:flex;align-items:center">
-              <span class="dots">
-                <i style="background:#F43F5E"></i>
-                <i style="background:#F59E0B"></i>
-                <i style="background:#10B981"></i>
-              </span>
-              <span>getassetiq.ai/console</span>
-            </div>
-            <span><strong>Akshay</strong> · Biomed Lead</span>
-          </div>
-
-          <div class="kp">
-            <div>
-              <small>Asset health score</small>
-              <b style="color:var(--ok)"><span data-n="95">0</span>%</b>
-            </div>
-            <div>
-              <small>Fleet uptime</small>
-              <b style="color:var(--v)"><span data-n="99.8" data-d="1">0</span>%</b>
-            </div>
-            <div>
-              <small>Assets in register</small>
-              <b><span data-n="1236">0</span></b>
-            </div>
-            <div>
-              <small>Mean time to repair</small>
-              <b style="color:var(--b)"><span data-n="0.9" data-d="1">0</span> hrs</b>
-            </div>
-          </div>
-
-          <div class="dev">
-            <strong>Defibrillator · SUN/SAN/ACU0013</strong>
-            <span style="color:var(--mute)">Annexe ICU, First Floor · Dept of Critical Care</span>
-            <div class="r">
-              <span>Coverage detected automatically:</span>
-              <span class="tag">Covered by Comprehensive AMC</span>
-            </div>
-          </div>
-
-          <div class="feed" id="feed"></div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -1823,25 +1776,6 @@ $$('.fi button').forEach(b => b.onclick = () => {
   b.setAttribute('aria-expanded', o);
 });
 
-// Live Feed Preview in Console
-const ev = [
-  ["PM Done", "Ventilator VNT-09 (ICU-3) verified by Sister In-Charge"],
-  ["Breakdown", "Dialysis Unit 04 QR scanned, engineer dispatched"],
-  ["Warranty", "Repair covered under Philips CMC; no PO needed"],
-  ["Calibration", "Defibrillator NABL certificate verified to Dec 2027"],
-  ["Synced", "14 offline maintenance logs synced from Basement Radiology"]
-];
-let fi = 0;
-function feed() {
-  const d = document.createElement('div');
-  const e = ev[fi++ % ev.length];
-  d.innerHTML = `<em>${e[0]}</em><span>${e[1]}</span>`;
-  $('#feed').prepend(d);
-  while ($('#feed').children.length > 3) $('#feed').lastChild.remove();
-}
-feed(); feed(); feed();
-if (!RM) setInterval(feed, 2800);
-
 // Number Counter animation
 function cu(el) {
   const to = +el.dataset.n, d = +el.dataset.d || 0;
@@ -1869,7 +1803,7 @@ const io2 = new IntersectionObserver(es => es.forEach(e => {
     io2.unobserve(e.target);
   }
 }), { threshold: 0.25 });
-io2.observe($('.con'));
+io2.observe(document.body.firstElementChild && document.querySelector('.con') || document.createElement('i'));
 
 // ==========================================
 // Interactive ROI Estimator & Dynamic Updates
@@ -2121,4 +2055,4 @@ $$('section[id]').forEach(s => io4.observe(s));
 })();
 </script>
 </body>
-</html> 
+</html>
